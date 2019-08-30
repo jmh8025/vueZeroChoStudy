@@ -1,9 +1,9 @@
 <template>
   <v-list-item-group>
     <ul>
-      <li v-for="f in fList" :key="f.id">
-        <span>{{f.nickname}}</span>
-        <v-icon @click="removeFollow(followType,f.id)">mdi-minus-circle-outline</v-icon>
+      <li v-for="user in users" :key="user.id">
+        <span>{{user.nickname}}</span>
+        <v-icon @click="remove(user.id)">mdi-minus-circle-outline</v-icon>
       </li>
     </ul>
   </v-list-item-group>
@@ -12,14 +12,16 @@
 <script>
 export default {
     props : {
-      fList : {
-        type: Array,
+      users :{
+        type : Array,
         required : true,
       },
-      followType :{
-        type : String,
+      remove : {
+        type : Function,
         required : true,
       }
+    },
+    computed: {
     },
     methods :{
       removeFollow(followType,id){

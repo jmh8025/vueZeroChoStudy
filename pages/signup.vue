@@ -78,6 +78,20 @@ export default {
             title : '회원가입'
         }
     },
+    computed : {
+        me(){
+            return this.$store.state.users.me;
+        }
+    },
+    watch : {
+        me(value,oldvalue){
+            if(value){
+                this.$router.push({
+                    path :'/',
+                });
+            }
+        }
+    },
     methods: {
         onSubmitForm(){
             if(this.$refs.form.validate()){
@@ -99,6 +113,7 @@ export default {
             console.log(this.valid)
         }
     },
+    middleware : 'anomymous',
 }
 </script>
 <style scoped>

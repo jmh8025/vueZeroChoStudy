@@ -19,13 +19,13 @@
              <v-card style="margin-bottom: 20px">
                 <v-container grid-list-xs>
                     <v-subheader>팔로잉</v-subheader>
-                    <follow-list :fList="followingList" :followType="'following'"/>
+                    <follow-list  :users="followingList" :remove="removeFollowing"/>
                 </v-container>
             </v-card>
             <v-card style="margin-bottom: 20px">
                 <v-container grid-list-xs>
                     <v-subheader>팔로워</v-subheader>
-                    <follow-list :fList="followerList" :followType="'follower'"/>
+                    <follow-list  :users="followerList" :remove="removeFollower"/>
                 </v-container>
             </v-card> 
         </v-container>
@@ -33,7 +33,6 @@
 </template>
 <script>
 import FollowList from '~/components/FollowList'
-import { mapState } from 'vuex';
 
 export default {
     // layout : 'admin',
@@ -41,7 +40,12 @@ export default {
         FollowList,
     },
     computed:{
-            ...mapState('users',['followerList','followingList']),
+      followerList(){
+        return this.$store.state.users.followerList;
+      },
+      followingList(){
+        return this.$store.state.users.followingList;
+      },
     },
     data(){
         return {
@@ -58,12 +62,19 @@ export default {
                 nickname : this.nickname
             })
         },
+        removeFollower(id){
+            this.$store.dispatch('users/removeFollower',{id})
+        },
+        removeFollowing(id){
+             this.$store.dispatch('users/removeFollowing',{id})
+        },
     },
     head() {
         return {
             title : '프로필'
         }
     },
+    middleware : 'authenticated',
 }
 </script>
 <style scoped>
