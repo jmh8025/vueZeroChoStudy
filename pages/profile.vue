@@ -20,12 +20,14 @@
                 <v-container grid-list-xs>
                     <v-subheader>팔로잉</v-subheader>
                     <follow-list  :users="followingList" :remove="removeFollowing"/>
+                    <v-btn v-if="hasMoreFollowing" @click="loadMoreFollowings" dark color="blue" style="width=100%">더보기</v-btn>
                 </v-container>
             </v-card>
             <v-card style="margin-bottom: 20px">
                 <v-container grid-list-xs>
                     <v-subheader>팔로워</v-subheader>
                     <follow-list  :users="followerList" :remove="removeFollower"/>
+                    <v-btn v-if="hasMoreFollower" @click="loadMoreFollowers" dark color="blue" style="width=100%">더보기</v-btn>
                 </v-container>
             </v-card> 
         </v-container>
@@ -46,6 +48,12 @@ export default {
       followingList(){
         return this.$store.state.users.followingList;
       },
+      hasMoreFollowing(){
+        return this.$store.state.users.hasMoreFollowing;
+      },
+      hasMoreFollower(){
+        return this.$store.state.users.hasMoreFollower;
+      },
     },
     data(){
         return {
@@ -55,6 +63,10 @@ export default {
                 v=> !!v || '닉네임을 입력하셔야합니다.',
             ]
         }
+    },
+    fetch({store}){
+        store.dispatch('users/loadFollowers');
+        store.dispatch('users/loadFollowings');
     },
     methods :{
         onChangeNickname(){
@@ -68,6 +80,12 @@ export default {
         removeFollowing(id){
              this.$store.dispatch('users/removeFollowing',{id})
         },
+        loadMoreFollowings(){
+             this.$store.dispatch('users/loadFollowings')
+        },
+        loadMoreFollowers(){
+             this.$store.dispatch('users/loadFollowers')
+        }
     },
     head() {
         return {

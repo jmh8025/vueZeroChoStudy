@@ -1,12 +1,20 @@
 <template>
-  <v-list-item-group>
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        <span>{{user.nickname}}</span>
+
+<v-list>
+  <v-col v-for="user in users" :key="user.id" cols="12" md="4" style="display : inline-block">
+  <v-list-item>
+    <v-list-item-avatar color="indigo">
+      <span class="white--text headline">{{user.nickname[0]}}</span>
+    </v-list-item-avatar>
+    <v-list-item-content>
+      <v-list-item-title>{{user.nickname}}</v-list-item-title>
+    </v-list-item-content>
+    <v-list-item-action>
         <v-icon @click="remove(user.id)">mdi-minus-circle-outline</v-icon>
-      </li>
-    </ul>
-  </v-list-item-group>
+    </v-list-item-action>
+  </v-list-item>
+  </v-col>
+</v-list>
 </template>
 
 <script>
@@ -24,19 +32,6 @@ export default {
     computed: {
     },
     methods :{
-      removeFollow(followType,id){
-        console.log(`type:${followType}, id:${id}`)
-        this.$store.dispatch('users/removeFollow',{
-          type : followType,
-          id : id,
-        })
-        .then(() => {
-          alert('삭제가 완료되었습니다.');
-        })
-        .catch(()=> {
-          alert('에러가 발생했습니다.');
-        })
-      }
     }
 }
 </script>
